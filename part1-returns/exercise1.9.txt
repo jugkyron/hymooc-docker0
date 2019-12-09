@@ -1,0 +1,7 @@
+docker pull devopsdockeruh/ports_exercise
+docker run -d -p 3000:80 devopsdockeruh/ports_exercise 
+
+# Browser
+# http://0.0.0.0:3000/
+# Ports configured correctly!!
+

@@ -1,0 +1,9 @@
+docker pull devopsdockeruh/exec_bash_exercise 
+docker images (IMAGE ID: 489b6d8f2ab8)
+docker run -d --name tehtava1.4 489
+docker exec -it tehtava1.4 tail -f ./logs.txt
+
+>Thu, 05 Dec 2019 23:10:11 GMT
+>Thu, 05 Dec 2019 23:10:14 GMT
+>Secret message is:
+>"Docker is easy"
