@@ -1,0 +1,18 @@
+docker build -t backnd .
+docker run --rm -d -v $(pwd)/logs.txt:/usr/app/logs.txt -p 8000:8000 backnd
+>Connect browser:  http://localhost:8000 (and see logs cmd: tail -f logs.txt in host)
+>Port configured correctly, generated message in logs.txt
+
+(Dockerfile start)
+FROM ubuntu:16.04
+WORKDIR /usr/app
+RUN apt-get update && apt-get install -y curl  
+COPY backend-example-docker . 
+COPY logs.txt .
+WORKDIR /usr/app/backend-example-docker
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
+RUN apt-get install -y nodejs
+RUN npm install -y
+CMD ["npm", "start"]
+EXPOSE 8000
+(Dockerfile end)
