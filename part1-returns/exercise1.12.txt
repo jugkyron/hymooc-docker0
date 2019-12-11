@@ -1,0 +1,37 @@
+# Frontend:
+docker build -t fes
+docker run -d --rm -p 8888:5000 fes
+# Server: 
+docker build -t bes
+docker run -d --rm -p 8000:8000 bes
+
+# Dockerfile Frontend
+FROM ubuntu:16.04
+WORKDIR /usr/app
+RUN apt-get update && apt-get install -y curl  
+COPY frontend-example-docker .
+WORKDIR /usr/app/frontend-example-docker
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
+WORKDIR /usr/app/frontend-example-docker
+RUN apt-get install -y nodejs
+RUN npm install -y
+ARG API_URL
+ENV API_URL=http://localhost:8000
+CMD ["npm", "start"]
+EXPOSE 5000
+# end of Dockerfile
+
+# Dockerfile Server
+FROM ubuntu:16.04
+WORKDIR /usr/app
+RUN apt-get update && apt-get install -y curl  
+COPY backend-example-docker . 
+COPY logs.txt .
+WORKDIR /usr/app/backend-example-docker
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
+RUN apt-get install -y nodejs
+RUN npm install -y
+ENV FRONT_URL=http://localhost:8888
+CMD ["npm", "start"]
+EXPOSE 8000
+# end of Dockerfile

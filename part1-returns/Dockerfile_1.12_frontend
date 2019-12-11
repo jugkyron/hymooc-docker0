@@ -1,0 +1,15 @@
+# Dockerfile 
+FROM ubuntu:16.04
+WORKDIR /usr/app
+RUN apt-get update && apt-get install -y curl  
+COPY frontend-example-docker .
+WORKDIR /usr/app/frontend-example-docker
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
+WORKDIR /usr/app/frontend-example-docker
+RUN apt-get install -y nodejs
+RUN npm install -y
+ARG API_URL
+ENV API_URL=${API_URL:-http://localhost:8000}
+CMD ["npm", "start"]
+EXPOSE 5000
+
