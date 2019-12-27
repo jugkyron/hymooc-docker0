@@ -1,0 +1,18 @@
+FROM ruby:2.6.0
+WORKDIR /mydir
+RUN apt-get update && apt-get install -y git  
+RUN git clone https://github.com/docker-hy/rails-example-project.git
+RUN apt-get -y install curl
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN apt-get -y install nodejs
+RUN node -v && npm -v
+WORKDIR /mydir/rails-example-project
+COPY production.rb config/environments/. 
+COPY master.key config/.
+COPY credentials.yml.enc config/.
+RUN bundle install
+RUN rails db:migrate RAILS_ENV=production
+RUN rake assets:precompile
+ENTRYPOINT ["/bin/bash", "-c", "rails s -e production"]
+EXPOSE 3000
+#CMD ["/bin/bash"]

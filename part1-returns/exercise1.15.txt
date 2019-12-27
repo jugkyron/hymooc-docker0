@@ -1,0 +1,22 @@
+Link to Docker Hub repo:
+https://hub.docker.com/repository/docker/jukidocker/nodeserver-example
+
+Readme: 
+Example usage/docker run: docker run -d --rm -p 5000:3000 jukidocker/nodeserver-example
+
+Testing:
+Open your browser and add into URL-field: http://127.0.0.1:5000
+
+Result:
+You will see: "Hello world!"
+
+Other: (debugging) 
+curl -i http://0.0.0.0:5000
+netstat -a -p TCP -n | grep 5000
+
+Github repository: 
+jugkyron/nodeserver-example
+
+Push to docker hub: 
+docker tag <image> jukidocker/nodeserver-example
+docker push jukidocker/nodeserver-example

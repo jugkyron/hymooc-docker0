@@ -1,0 +1,58 @@
+1) Making new rails-example-project/config/environments/production.rb which has "master_key in use i.e. # -removed from config.require_master_key = true
+
+2) making Dockerfile:
+FROM ruby:2.6.0
+WORKDIR /mydir
+RUN apt-get update && apt-get install -y git  
+RUN git clone https://github.com/docker-hy/rails-example-project.git
+RUN apt-get -y install curl
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN apt-get -y install nodejs
+RUN node -v && npm -v
+WORKDIR /mydir/rails-example-project
+
+
+3) Starting docker for generating new credentials in ruby (with Dockerfile above): docker run -it -v $(pwd):/mydir/rails-example-project/host-sh/ myruby /bin/bash 
+
+
+4) I removed original config/credentials.yml.enc and 
+Run EDITOR=vim rails credentials:edit in the terminal: This created a new master.key and credentials.yml.enc. Sharing new files with host (copying them in "host-sh" dir) 
+
+5) 
+
+Final Dockerfile: 
+FROM ruby:2.6.0
+WORKDIR /mydir
+RUN apt-get update && apt-get install -y git  
+RUN git clone https://github.com/docker-hy/rails-example-project.git
+RUN apt-get -y install curl
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN apt-get -y install nodejs
+RUN node -v && npm -v
+WORKDIR /mydir/rails-example-project
+COPY production.rb config/environments/. 
+COPY master.key config/.
+COPY credentials.yml.enc config/.
+RUN bundle install
+RUN rails db:migrate RAILS_ENV=production
+RUN rake assets:precompile
+ENTRYPOINT ["/bin/bash", "-c", "rails s -e production"]
+EXPOSE 3000
+
+6) docker run -d --rm -p 3000:3000 myruby
+
+UI:
+1)
+New Press
+Total presses: 2
+
+[Press]
+List presses
+2)
+Presses:
+2 presses
+2019-12-17 23:34:14 UTC	Destroy
+2019-12-17 23:34:12 UTC	Destroy
+Press more
+
+
