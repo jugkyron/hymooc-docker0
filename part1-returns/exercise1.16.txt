@@ -1,0 +1,2 @@
+Heroku application created (from Docker hub image: devopsdockeruh/heroku-example) and accessible: 
+https://devops-heroku-example.herokuapp.com/
