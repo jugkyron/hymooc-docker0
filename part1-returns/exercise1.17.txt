@@ -1,0 +1,30 @@
+# Exercise 1.17 - my favorite programming environment
+
+Created image in Docker Hub: 
+ Repository: https://hub.docker.com/r/jukidocker/mytools 
+ Image: jukidocker/mytools:latest
+
+Following commands can be used: 
+ docker pull jukidocker/mytools
+ docker run -it -v $(pwd):/usr/mytools jukidocker/mytools
+
+Content: 
+ My environment is using ubuntu 18.04.
+ Image contains following tools:
+ * git - version control system tool
+ * curl - a library (libcurl) and command-line tool (curl) for transferring data using various protocols.
+ * gcc - gnu C complier collection
+ * gdb - c/c++ debugger
+ * valgrind - memory debugging, memory leak detection, and profiling
+ * g++ - gnu C++ complier collection
+ * default-jre - Java compatible runtime (openjJDK X JRE)
+ * default-jdk - java development kit (open-JDK X JDK)
+ * scala - Scala is a statically typed programming language (OO & JVM)
+ * gnupg - a free-software replacement for Symantec's PGP cryptographic software suite
+ * vim - text editor
+ * python3 - programming and scripting language 
+ * sbt - build tool for scala
+ * nodejs - Node.js is an open source server environment. JavaScript runtime environment.
+ * npm - NPM is a package manager for Node.js packages.
+ Note: nodejs, npm not started in container by default 
+  
