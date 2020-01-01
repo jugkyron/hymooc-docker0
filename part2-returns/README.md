@@ -1,10 +1,8 @@
 Part 2. Excercises
 
-Excercise 2.1: 
+Exercise 2.1: 
 
-Running: 
-docker-compose up 
-(docker-compose run firstvol)
+Running: docker-compose up 
 
 docker-compose.yml
  
@@ -18,4 +16,44 @@ services:
         - ./logs.txt:/usr/app/logs.txt
       container_name: write-logs
 
-Excercise 2.2: 
+Exercise 2.2: 
+
+docker-compose.yml:  
+version: '3.5' 
+
+services: 
+
+   ports_exercise:
+      image: devopsdockeruh/ports_exercise 
+      ports:
+        - 80:80
+
+Exercise 2.3: 
+
+docker-compose.yml: 
+version: '3.5' 
+
+# Frontend: Dockerfile for front placed in subdirectory: front
+# Server: Dockerfile for server placed in subdirectory: bserv
+# Starting: 
+# > docker-compose build
+# > docker-compose up 
+
+services: 
+
+   front:
+      image: front 
+      build: './front'
+      ports:
+        - 8888:5000
+      container_name: frontend
+
+   bserv: 
+      image: bserv
+      build: './bserv'
+      ports:
+        - 8000:8000
+ # for debugging npm errors:
+      volumes:
+        - .:/root/.npm/_logs
+      container_name: bserver
