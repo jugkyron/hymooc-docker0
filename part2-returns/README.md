@@ -30,14 +30,14 @@ services:
 
 Exercise 2.3: 
 
-docker-compose.yml: 
-version: '3.5' 
-
+# (main directory) docker-compose.yml 
 # Frontend: Dockerfile for front placed in subdirectory: front
 # Server: Dockerfile for server placed in subdirectory: bserv
 # Starting: 
 # > docker-compose build
 # > docker-compose up 
+docker-compose.yml:
+version: '3.5'
 
 services: 
 
@@ -57,3 +57,4 @@ services:
       volumes:
         - .:/root/.npm/_logs
       container_name: bserver
+
