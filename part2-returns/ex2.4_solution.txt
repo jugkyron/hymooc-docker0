@@ -1,0 +1,5 @@
+Solution is to use docker scale which enables scale "compute" nodes 
+here 2 instances were enough i.e. by using command: 
+docker-compose up --scale compute=2
+
+ 

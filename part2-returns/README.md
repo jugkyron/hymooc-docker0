@@ -30,13 +30,15 @@ services:
 
 Exercise 2.3: 
 
-# (main directory) docker-compose.yml 
-# Frontend: Dockerfile for front placed in subdirectory: front
-# Server: Dockerfile for server placed in subdirectory: bserv
-# Starting: 
-# > docker-compose build
-# > docker-compose up 
+(main directory) docker-compose.yml 
+Frontend: Dockerfile for front placed in subdirectory: front
+Server: Dockerfile for server placed in subdirectory: bserv
+Starting: 
+> docker-compose build
+> docker-compose up 
+
 docker-compose.yml:
+
 version: '3.5'
 
 services: 
@@ -58,3 +60,10 @@ services:
         - .:/root/.npm/_logs
       container_name: bserver
 
+Exercise 2.4: 
+
+Solution is to use docker scale which enables scale "compute" nodes 
+here 2 instances were enough i.e. by using command: 
+docker-compose up --scale compute=2
+
+Exercise 2.5: 
