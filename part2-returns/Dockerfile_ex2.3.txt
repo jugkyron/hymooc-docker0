@@ -1,0 +1,36 @@
+cat front/Dockerfile 
+# Frontend: this Dockerfile needs tobe located in ./front -directory
+FROM ubuntu:16.04
+WORKDIR /usr/app
+RUN apt-get update && apt-get install -y curl git
+RUN git clone https://github.com/docker-hy/frontend-example-docker.git
+WORKDIR /usr/app/frontend-example-docker
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
+RUN apt-get install -y nodejs
+RUN npm install -y
+ARG API_URL
+ENV API_URL=${API_URL:-http://localhost:8000}
+CMD ["npm", "start"]
+EXPOSE 5000
+# End of Frontend dockerfile
+
+# Server: this Dockerfile needs tobe located in ./bserv -directory
+FROM ubuntu:16.04
+WORKDIR /usr/app
+RUN apt-get update && apt-get install -y curl git 
+RUN git clone https://github.com/docker-hy/backend-example-docker.git 
+WORKDIR /usr/app/backend-example-docker
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
+RUN apt-get install -y nodejs
+RUN npm install -y
+ENV FRONT_URL=http://localhost:8888
+CMD ["npm", "start"]
+EXPOSE 8000
+
+# End of Server dockerfile 
+
+# Frontend: Dockerfile for front placed in subdirectory: front
+# Server: Dockerfile for server placed in subdirectory: bserv
+# In directory where docker-compose.yml located run following: 
+# > docker-compose build
+# > docker-compose up
