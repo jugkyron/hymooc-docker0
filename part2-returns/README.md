@@ -32,6 +32,7 @@ services:
 Exercise 2.3: 
 
 (main directory) docker-compose.yml 
+
 Frontend: Dockerfile for front placed in subdirectory: front
 Server: Dockerfile for server placed in subdirectory: bserv
 Starting: 
@@ -100,4 +101,3 @@ services:
       container_name: bserver
 
 Exercise 2.6:
-
