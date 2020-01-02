@@ -1,7 +1,6 @@
 Part 2. Excercises
 
 Exercise 2.1: 
-
 Running: docker-compose up 
 
 docker-compose.yml
@@ -16,9 +15,11 @@ services:
         - ./logs.txt:/usr/app/logs.txt
       container_name: write-logs
 
+
 Exercise 2.2: 
 
 docker-compose.yml:  
+
 version: '3.5' 
 
 services: 
@@ -99,3 +100,4 @@ services:
       container_name: bserver
 
 Exercise 2.6:
+
