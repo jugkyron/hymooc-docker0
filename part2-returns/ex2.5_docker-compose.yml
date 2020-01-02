@@ -1,0 +1,29 @@
+version: '3.5' 
+
+# Frontend: Dockerfile for front placed in subdirectory: front
+# Server: Dockerfile for server placed in subdirectory: bserv
+# Starting: 
+# > docker-compose up 
+
+services: 
+
+   front:
+      image: front 
+      build: './front'
+      ports:
+        - 8888:5000
+      container_name: frontend
+   redis: 
+      image: redis
+      container_name: redis-cache
+   bserv: 
+      image: bserv
+      restart: unless-stopped  
+      build: './bserv'
+      ports:
+        - 8000:8000
+      environment: 
+        - REDIS=redis-cache
+      volumes:
+        - .:/root/.npm/_logs
+      container_name: bserver
