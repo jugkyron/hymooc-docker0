@@ -101,3 +101,47 @@ services:
       container_name: bserver
 
 Exercise 2.6:
+
+Frontend: Dockerfile for front placed in subdirectory: front
+Server: Dockerfile for server placed in subdirectory: bserv
+volumes: > docker volume ls (to see volumes) and docker volume prune (i.e. to remove unnecessary/interfering volumes)
+run: > docker-compose up
+
+docker-compose.yml:
+version: '3.5'
+
+services: 
+
+   front:
+      image: front 
+      build: './front'
+      ports:
+        - 8888:5000
+      container_name: frontend
+   db:
+      image: postgres
+      restart: unless-stopped
+      environment:
+        POSTGRES_DB: db-bserver
+        POSTGRES_USER: db-user
+        POSTGRES_PASSWORD: example
+      container_name: postgres
+   redis: 
+      image: redis
+      container_name: redis-cache
+   bserv: 
+      image: bserv
+      restart: unless-stopped  
+      build: './bserv'
+      ports:
+        - 8000:8000
+      environment: 
+        - REDIS=redis-cache
+        - DB_USERNAME=db-user
+        - DB_PASSWORD=example
+        - DB_NAME=db-bserver
+        - DB_HOST=postgres   
+      container_name: bserver
+
+Exercise 2.7:
+
