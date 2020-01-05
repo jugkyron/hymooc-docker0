@@ -145,11 +145,6 @@ services:
 
 Exercise 2.7:
 
-docker-compose.yml 
-version: '3.5' 
-
-# Exercise 2.7 
-
 Services:
  - subdirectory: frontend
  - subdirectory: backend
