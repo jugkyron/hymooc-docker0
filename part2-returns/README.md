@@ -145,3 +145,55 @@ services:
 
 Exercise 2.7:
 
+docker-compose.yml 
+version: '3.5' 
+
+# Exercise 2.7 
+
+Services:
+ - subdirectory: frontend
+ - subdirectory: backend
+ - subdirectory: training
+ Volumes: model: & imgs:
+  - volumes: > docker volume ls (to see volumes) 
+  - and docker volume prune (i.e. to remove unnecessary/interfering volumes)
+  - run: > docker-compose up
+
+docker-compose.yml: 
+
+version: '3.5'
+
+services: 
+   training: 
+      image: training
+      restart: always 
+      build: './training'
+      volumes: 
+        - model:/src/model
+        - imgs:/src/imgs
+      container_name: training
+   frontend:
+      image: frontend 
+      build: './frontend'
+      ports:
+        - 3000:3000
+      depends_on:
+        - backend
+      container_name: frontend
+   backend: 
+      image: backend
+      restart: unless-stopped  
+      build: './backend'
+      ports:
+        - 5000:5000
+      volumes: 
+        - model:/src/model
+      depends_on:
+        - training
+      container_name: backend
+
+volumes: 
+    model:
+    imgs:
+
+Exercise 2.8: 
