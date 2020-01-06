@@ -105,9 +105,12 @@ services:
 ## Exercise 2.6:
 
 *Frontend: Dockerfile for front placed in subdirectory: front
-Server: Dockerfile for server placed in subdirectory: bserv.*
-> to see volumes: 'docker volume ls' 
-> to remove volumes: 'docker-compose up'
+Server: Dockerfile for server placed in subdirectory: bserv
+Cache: Redis (dockerhub)
+Database: postgress (dockerhub)*
+
+> docker-compose up
+> docker volume prune (clean docker volumes)
 
 ### docker-compose.yml:
 ```version: '3.5'
@@ -286,3 +289,55 @@ http {
 
 ## Exercise 2.9: 
 
+*Frontend: Dockerfile for front placed in subdirectory: front
+Server: Dockerfile for server placed in subdirectory: bserv
+Cache: Redis (dockerhub)
+Database: postgress (dockerhub)*
+
+> docker-compose up
+> docker volume prune (clean docker volumes)
+
+### docker-compose.yml:
+
+```version: '3.5'
+
+services: 
+
+   front:
+      image: front 
+      build: './front'
+      ports:
+        - 8888:5000
+      container_name: frontend
+   db:
+      image: postgres
+      restart: unless-stopped
+      environment:
+        POSTGRES_DB: db-bserver
+        POSTGRES_USER: db-user
+        POSTGRES_PASSWORD: example
+        PGDATA: /var/lib/postgresql/data/pgdata
+      volumes: 
+        - ./pgdata:/var/lib/postgresql/data/pgdata
+      container_name: postgres
+   redis: 
+      image: redis
+      container_name: redis-cache
+   bserv: 
+      image: bserv
+      restart: unless-stopped  
+      build: './bserv'
+      ports:
+        - 8000:8000
+      environment: 
+        - REDIS=redis-cache
+        - DB_USERNAME=db-user
+        - DB_PASSWORD=example
+        - DB_NAME=db-bserver
+        - DB_HOST=postgres   
+      volumes:
+        - .:/root/.npm/_logs
+      depends_on:
+        - db
+      container_name: bserver
+```
