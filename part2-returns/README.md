@@ -1,11 +1,12 @@
-Part 2. Excercises
+# Part 2. Excercises
 
-Exercise 2.1: 
-Running: docker-compose up 
+## Exercise 2.1: 
 
-docker-compose.yml
+*Running: docker-compose up* 
+
+### docker-compose.yml
  
-version: '3.5' 
+'''version: '3.5' 
 
 services: 
 
@@ -14,13 +15,13 @@ services:
       volumes: 
         - ./logs.txt:/usr/app/logs.txt
       container_name: write-logs
+'''
 
+## Exercise 2.2: 
 
-Exercise 2.2: 
+## docker-compose.yml:  
 
-docker-compose.yml:  
-
-version: '3.5' 
+'''version: '3.5' 
 
 services: 
 
@@ -28,20 +29,19 @@ services:
       image: devopsdockeruh/ports_exercise 
       ports:
         - 80:80
+'''
+## Exercise 2.3: 
 
-Exercise 2.3: 
-
-(main directory) docker-compose.yml 
-
-Frontend: Dockerfile for front placed in subdirectory: front
+*Frontend: Dockerfile for front placed in subdirectory: front
 Server: Dockerfile for server placed in subdirectory: bserv
-Starting: 
-> docker-compose build
-> docker-compose up 
+Starting:*
+ 
+**> docker-compose build
+> docker-compose up ** 
 
-docker-compose.yml:
+### docker-compose.yml:
 
-version: '3.5'
+'''version: '3.5'
 
 services: 
 
@@ -60,22 +60,24 @@ services:
       volumes:
         - .:/root/.npm/_logs
       container_name: bserver
+'''
+## Exercise 2.4: 
 
-Exercise 2.4: 
+*Solution is to use docker scale which enables scale "compute" nodes 
+here 2 instances were enough i.e. by using command:* 
 
-Solution is to use docker scale which enables scale "compute" nodes 
-here 2 instances were enough i.e. by using command: 
-docker-compose up --scale compute=2
+**docker-compose up --scale compute=2**
 
-Exercise 2.5: 
+## Exercise 2.5: 
 
-Frontend: Dockerfile for front placed in subdirectory: front
-Server: Dockerfile for server placed in subdirectory: bserv
-Run: docker-compose up 
+*Frontend: Dockerfile for front placed in subdirectory: front
+Server: Dockerfile for server placed in subdirectory: bserv*
 
-docker-compose.yml:
+**Run: docker-compose up** 
 
-version: '3.5'
+### docker-compose.yml:
+
+'''version: '3.5'
 
 services: 
 
@@ -99,16 +101,16 @@ services:
       volumes:
         - .:/root/.npm/_logs
       container_name: bserver
+'''
+## Exercise 2.6:
 
-Exercise 2.6:
+*Frontend: Dockerfile for front placed in subdirectory: front
+Server: Dockerfile for server placed in subdirectory: bserv.*
+> to see volumes: 'docker volume ls' 
+> to remove volumes: 'docker-compose up'
 
-Frontend: Dockerfile for front placed in subdirectory: front
-Server: Dockerfile for server placed in subdirectory: bserv
-volumes: > docker volume ls (to see volumes) and docker volume prune (i.e. to remove unnecessary/interfering volumes)
-run: > docker-compose up
-
-docker-compose.yml:
-version: '3.5'
+### docker-compose.yml:
+'''version: '3.5'
 
 services: 
 
@@ -142,21 +144,21 @@ services:
         - DB_NAME=db-bserver
         - DB_HOST=postgres   
       container_name: bserver
+'''
+## Exercise 2.7:
 
-Exercise 2.7:
-
-Services:
+*Services:
  - subdirectory: frontend
  - subdirectory: backend
  - subdirectory: training
  Volumes: model: & imgs:
   - volumes: > docker volume ls (to see volumes) 
   - and docker volume prune (i.e. to remove unnecessary/interfering volumes)
-  - run: > docker-compose up
+  - run: > docker-compose up*
 
-docker-compose.yml: 
+### docker-compose.yml: 
 
-version: '3.5'
+'''version: '3.5'
 
 services: 
    training: 
@@ -190,18 +192,21 @@ services:
 volumes: 
     model:
     imgs:
+'''
 
-Exercise 2.8 
-  Frontend: Dockerfile for front placed in subdirectory: front
+## Exercise 2.8
+ 
+  * Frontend: Dockerfile for front placed in subdirectory: front
   Server: Dockerfile for server placed in subdirectory: bserv
   Docker run details:
-  place the nginx.conf file to the ./lb_nginx sub-directory 
-  > docker-compose up 
-  > docker volume prune, docker volume ls might needed
+  place the nginx.conf file to the ./lb_nginx sub-directory*
+ 
+> docker-compose up 
+> docker volume prune, docker volume ls might needed
 
-docker-compose.yml:
+### docker-compose.yml:
 
-version: '3.5'
+'''version: '3.5'
 
 services: 
 
@@ -258,10 +263,11 @@ services:
 
 networks: 
    nginxet: 
+'''
 
-nginx.conf: 
+### nginx.conf: 
 
-events { worker_connections 1024; }
+'''events { worker_connections 1024; }
 
 http {
   server {
@@ -276,6 +282,7 @@ http {
     }
   }
 }
+'''
 
-Exercise 2.9: 
+## Exercise 2.9: 
 
