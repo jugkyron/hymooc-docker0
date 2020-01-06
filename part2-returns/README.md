@@ -6,7 +6,7 @@
 
 ### docker-compose.yml
  
-'''version: '3.5' 
+```version: '3.5' 
 
 services: 
 
@@ -15,13 +15,13 @@ services:
       volumes: 
         - ./logs.txt:/usr/app/logs.txt
       container_name: write-logs
-'''
+```
 
 ## Exercise 2.2: 
 
 ## docker-compose.yml:  
 
-'''version: '3.5' 
+```version: '3.5' 
 
 services: 
 
@@ -29,7 +29,7 @@ services:
       image: devopsdockeruh/ports_exercise 
       ports:
         - 80:80
-'''
+```
 ## Exercise 2.3: 
 
 *Frontend: Dockerfile for front placed in subdirectory: front
@@ -41,7 +41,7 @@ Starting:*
 
 ### docker-compose.yml:
 
-'''version: '3.5'
+```version: '3.5'
 
 services: 
 
@@ -60,7 +60,7 @@ services:
       volumes:
         - .:/root/.npm/_logs
       container_name: bserver
-'''
+```
 ## Exercise 2.4: 
 
 *Solution is to use docker scale which enables scale "compute" nodes 
@@ -77,7 +77,7 @@ Server: Dockerfile for server placed in subdirectory: bserv*
 
 ### docker-compose.yml:
 
-'''version: '3.5'
+```version: '3.5'
 
 services: 
 
@@ -101,7 +101,7 @@ services:
       volumes:
         - .:/root/.npm/_logs
       container_name: bserver
-'''
+```
 ## Exercise 2.6:
 
 *Frontend: Dockerfile for front placed in subdirectory: front
@@ -110,7 +110,7 @@ Server: Dockerfile for server placed in subdirectory: bserv.*
 > to remove volumes: 'docker-compose up'
 
 ### docker-compose.yml:
-'''version: '3.5'
+```version: '3.5'
 
 services: 
 
@@ -144,7 +144,7 @@ services:
         - DB_NAME=db-bserver
         - DB_HOST=postgres   
       container_name: bserver
-'''
+```
 ## Exercise 2.7:
 
 *Services:
@@ -158,7 +158,7 @@ services:
 
 ### docker-compose.yml: 
 
-'''version: '3.5'
+```version: '3.5'
 
 services: 
    training: 
@@ -192,7 +192,7 @@ services:
 volumes: 
     model:
     imgs:
-'''
+```
 
 ## Exercise 2.8
  
@@ -206,7 +206,7 @@ volumes:
 
 ### docker-compose.yml:
 
-'''version: '3.5'
+```version: '3.5'
 
 services: 
 
@@ -263,11 +263,11 @@ services:
 
 networks: 
    nginxet: 
-'''
+```
 
 ### nginx.conf: 
 
-'''events { worker_connections 1024; }
+```events { worker_connections 1024; }
 
 http {
   server {
@@ -282,7 +282,7 @@ http {
     }
   }
 }
-'''
+```
 
 ## Exercise 2.9: 
 
