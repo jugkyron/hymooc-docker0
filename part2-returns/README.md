@@ -2,7 +2,8 @@
 
 ## Exercise 2.1: 
 
-*Running: docker-compose up* 
+* docker-compose.yml which will create container of devopsdockeruh/first_volume_exercise and will create logs into its /usr/app/logs.txt shared with the host.*
+ - Running: docker-compose up 
 
 ### docker-compose.yml
  
@@ -19,6 +20,9 @@ services:
 
 ## Exercise 2.2: 
 
+* docker-compose.yml for container running devopsdockeruh/ports_exercise that starts a web service that will answer in port 80 (localhost)*
+ - Running: docker-compose up
+
 ## docker-compose.yml:  
 
 ```version: '3.5' 
@@ -32,12 +36,14 @@ services:
 ```
 ## Exercise 2.3: 
 
-*Frontend: Dockerfile for front placed in subdirectory: front
-Server: Dockerfile for server placed in subdirectory: bserv
-Starting:*
- 
-**> docker-compose build
-> docker-compose up ** 
+*Configured the backend and frontend from part 1 to work in docker-compose.* 
+
+- Frontend: Dockerfile for front placed in subdirectory: front
+- Server: Dockerfile for server placed in subdirectory: bserv
+Running:  
+> docker-compose build
+
+> docker-compose up 
 
 ### docker-compose.yml:
 
@@ -70,8 +76,10 @@ here 2 instances were enough i.e. by using command:*
 
 ## Exercise 2.5: 
 
-*Frontend: Dockerfile for front placed in subdirectory: front
-Server: Dockerfile for server placed in subdirectory: bserv*
+*Redis added to example backend i.e. hub.docker.com/_/redis/ (continuing 2.3)*
+
+- Frontend: Dockerfile for front placed in subdirectory: front
+- Server: Dockerfile for server placed in subdirectory: bserv*
 
 **Run: docker-compose up** 
 
@@ -104,13 +112,16 @@ services:
 ```
 ## Exercise 2.6:
 
-*Frontend: Dockerfile for front placed in subdirectory: front
-Server: Dockerfile for server placed in subdirectory: bserv
-Cache: Redis (dockerhub)
-Database: postgress (dockerhub)*
+*Continuing backend - frontend and adding postgres to it* 
+
+- Frontend: Dockerfile for front placed in subdirectory: front
+- Server: Dockerfile for server placed in subdirectory: bserv
+- Cache: Redis (dockerhub)
+- Database: postgres (dockerhub)
 
 > docker-compose up
-> docker volume prune (clean docker volumes)
+
+> useful: docker volume prune (clean docker volumes)
 
 ### docker-compose.yml:
 ```version: '3.5'
@@ -150,14 +161,23 @@ services:
 ```
 ## Exercise 2.7:
 
-*Services:
+** ML Kurkkumopo project configured with docker-compose **
+ 
+- github.com/docker-hy/ml-kurkkumopo-training
+- github.com/docker-hy/ml-kurkkumopo-frontend
+- github.com/docker-hy/ml-kurkkumopo-backend
+
+** Services:**
+
  - subdirectory: frontend
  - subdirectory: backend
  - subdirectory: training
- Volumes: model: & imgs:
+
+** Volumes: model: & imgs:**
+
   - volumes: > docker volume ls (to see volumes) 
   - and docker volume prune (i.e. to remove unnecessary/interfering volumes)
-  - run: > docker-compose up*
+  - run: > docker-compose up
 
 ### docker-compose.yml: 
 
@@ -199,13 +219,18 @@ volumes:
 
 ## Exercise 2.8
  
-  * Frontend: Dockerfile for front placed in subdirectory: front
-  Server: Dockerfile for server placed in subdirectory: bserv
-  Docker run details:
-  place the nginx.conf file to the ./lb_nginx sub-directory*
+* Continuing frontend-backend example now adding nginx to it *
+
+- Frontend: Dockerfile for front placed in subdirectory: front
+- Server: Dockerfile for server placed in subdirectory: bserv
+
+** Docker run details:**
+
+- place the nginx.conf file to the ./lb_nginx sub-directory (with fixed urls)
  
-> docker-compose up 
-> docker volume prune, docker volume ls might needed
+> Run: docker-compose up 
+
+> useful: docker volume prune, docker volume ls might needed
 
 ### docker-compose.yml:
 
@@ -289,10 +314,12 @@ http {
 
 ## Exercise 2.9: 
 
-*Frontend: Dockerfile for front placed in subdirectory: front
-Server: Dockerfile for server placed in subdirectory: bserv
-Cache: Redis (dockerhub)
-Database: postgress (dockerhub)*
+* Continuing frontend-backend example. Make database shared with host such way that it won't get deleted when container volume is removed* 
+
+- Frontend: Dockerfile for front placed in subdirectory: front
+- Server: Dockerfile for server placed in subdirectory: bserv
+- Cache: Redis (dockerhub)
+- Database: postgress (dockerhub)*
 
 > docker-compose up
 
@@ -345,26 +372,33 @@ services:
 
 ## Exercise 2.10 
 
-### "Fixing buttons" all changes:
+*Make sure that every button implemented in previous frontend-backend exercises works.* 
+
+** Changes needed ** 
 
 ```
 1) docker-compose.yml: 
- - front service build argument '/api' added for API_URL:  
-      build:
+ - front -service build argument '/api' was added for API_URL i.e.changes:  
+      ...
+       build:
         context: './front'
         dockerfile: Dockerfile
         args:
           API_URL: '/api'
+       ...
 
 2) Backend Dockerfile: ENV FRONT_URL changed to be: http://localhost:80
 
 3) Frontend Dockerfile: ENV API_URL changed to be: http://localhost:80
+
 ``` 
 
 * Frontend Docker file:*
 >  ENV ARG_URL changed to be: http://localhost:80
 
+
 ```
+
 # This Dockerfile needs tobe located in ./front -directory
 FROM ubuntu:16.04
 WORKDIR /usr/app
@@ -377,12 +411,16 @@ RUN npm install -y
 ARG API_URL
 ENV API_URL=${API_URL:-http://localhost:80}
 CMD ["npm", "start"]
-EXPOSE 5000 ```  
+EXPOSE 5000 
+
+```  
 
 * Backend Docker file:*
 >  ENV FRONT_URL changed to be: http://localhost:80
 
-```# This Dockerfile needs tobe located in ./bserv -directory
+```
+
+# This Dockerfile needs tobe located in ./bserv -directory
 FROM ubuntu:16.04
 WORKDIR /usr/app
 RUN apt-get update && apt-get install -y curl git 
@@ -393,7 +431,9 @@ RUN apt-get install -y nodejs
 RUN npm install -y
 ENV FRONT_URL=http://localhost:80
 CMD ["npm", "start"]
-EXPOSE 8000```
+EXPOSE 8000
+
+```
 
 ## docker-compose.yml for exercise 2.10:
 
@@ -467,9 +507,12 @@ services:
       container_name: lb_nginx
 
 networks: 
-   nginxet: ```
+   nginxet: 
 
-* NGINX (no change comparing to exercise 2.8): nginx.conf:*
+```
+
+* nginx.conf not changed comparing to exercise 2.8 *
+
 
 ```
 lb_nginx/nginx.conf 
