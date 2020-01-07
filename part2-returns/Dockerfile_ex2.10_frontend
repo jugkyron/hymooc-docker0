@@ -1,0 +1,15 @@
+# This Dockerfile needs tobe located in ./front -directory
+FROM ubuntu:16.04
+WORKDIR /usr/app
+RUN apt-get update && apt-get install -y curl git
+RUN git clone https://github.com/docker-hy/frontend-example-docker.git
+WORKDIR /usr/app/frontend-example-docker
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
+RUN apt-get install -y nodejs
+RUN npm install -y
+ARG API_URL
+# For Exercise 2.10 API_URL port changed to 80 (as nginx has)
+ENV API_URL=${API_URL:-http://localhost:80}
+CMD ["npm", "start"]
+EXPOSE 5000
+
