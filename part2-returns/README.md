@@ -295,6 +295,7 @@ Cache: Redis (dockerhub)
 Database: postgress (dockerhub)*
 
 > docker-compose up
+
 > docker volume prune (clean docker volumes)
 
 ### docker-compose.yml:
@@ -340,4 +341,152 @@ services:
       depends_on:
         - db
       container_name: bserver
+```
+
+## Exercise 2.10 
+
+### "Fixing buttons" all changes:
+
+```
+1) docker-compose.yml: 
+ - front service build argument '/api' added for API_URL:  
+      build:
+        context: './front'
+        dockerfile: Dockerfile
+        args:
+          API_URL: '/api'
+
+2) Backend Dockerfile: ENV FRONT_URL changed to be: http://localhost:80
+
+3) Frontend Dockerfile: ENV API_URL changed to be: http://localhost:80
+``` 
+
+* Frontend Docker file:*
+>  ENV ARG_URL changed to be: http://localhost:80
+
+```
+# This Dockerfile needs tobe located in ./front -directory
+FROM ubuntu:16.04
+WORKDIR /usr/app
+RUN apt-get update && apt-get install -y curl git
+RUN git clone https://github.com/docker-hy/frontend-example-docker.git
+WORKDIR /usr/app/frontend-example-docker
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
+RUN apt-get install -y nodejs
+RUN npm install -y
+ARG API_URL
+ENV API_URL=${API_URL:-http://localhost:80}
+CMD ["npm", "start"]
+EXPOSE 5000 ```  
+
+* Backend Docker file:*
+>  ENV FRONT_URL changed to be: http://localhost:80
+
+```# This Dockerfile needs tobe located in ./bserv -directory
+FROM ubuntu:16.04
+WORKDIR /usr/app
+RUN apt-get update && apt-get install -y curl git 
+RUN git clone https://github.com/docker-hy/backend-example-docker.git 
+WORKDIR /usr/app/backend-example-docker
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
+RUN apt-get install -y nodejs
+RUN npm install -y
+ENV FRONT_URL=http://localhost:80
+CMD ["npm", "start"]
+EXPOSE 8000```
+
+## docker-compose.yml for exercise 2.10:
+
+```version: '3.5' 
+
+# Exercise 2.10 
+# Frontend: Dockerfile for front placed in subdirectory: front
+# Server: Dockerfile for server placed in subdirectory: bserv
+# Docker run details:
+# place the nginx.conf file to the ./lb_nginx sub-directory 
+# > docker-compose up 
+# > docker volume prune, docker volume ls might needed
+
+services: 
+
+   front:
+      image: front 
+      build:
+        context: './front'
+        dockerfile: Dockerfile
+        args: 
+          API_URL: '/api' 
+      networks: 
+        - nginxet
+      container_name: frontend
+   db:
+      image: postgres
+      restart: unless-stopped
+      networks:
+        - nginxet
+      environment:
+        POSTGRES_DB: db-bserver
+        POSTGRES_USER: db-user
+        POSTGRES_PASSWORD: example
+        PGDATA : /var/lib/postgresql/data/pgdata
+      volumes: 
+        - ./pgdata:/var/lib/postgresql/data/pgdata
+      container_name: postgres
+   redis: 
+      image: redis
+      networks:
+        - nginxet
+      container_name: redis-cache
+   bserv: 
+      image: bserv
+      networks: 
+        - nginxet
+      restart: unless-stopped  
+      build: './bserv'
+      environment: 
+        - REDIS=redis-cache
+        - DB_USERNAME=db-user
+        - DB_PASSWORD=example
+        - DB_NAME=db-bserver
+        - DB_HOST=postgres   
+      volumes:
+        - .:/root/.npm/_logs
+      depends_on:
+        - db
+      container_name: bserver
+   lb_nginx:
+      image: nginx
+      networks: 
+        - nginxet
+      ports: 
+        - 80:80
+      volumes:
+        - ./lb_nginx/nginx.conf:/etc/nginx/nginx.conf 
+      depends_on:
+        - bserv
+      container_name: lb_nginx
+
+networks: 
+   nginxet: ```
+
+* NGINX (no change comparing to exercise 2.8): nginx.conf:*
+
+```
+lb_nginx/nginx.conf 
+
+events { worker_connections 1024; }
+
+http {
+  server {
+    listen 80;
+
+    location / {
+      proxy_pass http://frontend:5000;
+    }
+    location /api/ {
+      proxy_pass http://bserver:8000/;
+    }
+  }
+}
+
 ```
