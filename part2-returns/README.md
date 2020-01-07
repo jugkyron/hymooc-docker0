@@ -3,6 +3,7 @@
 ## Exercise 2.1: 
 
 * docker-compose.yml which will create container of devopsdockeruh/first_volume_exercise and will create logs into its /usr/app/logs.txt shared with the host.*
+
  - Running: docker-compose up 
 
 ### docker-compose.yml
@@ -21,6 +22,7 @@ services:
 ## Exercise 2.2: 
 
 * docker-compose.yml for container running devopsdockeruh/ports_exercise that starts a web service that will answer in port 80 (localhost)*
+
  - Running: docker-compose up
 
 ## docker-compose.yml:  
@@ -79,7 +81,7 @@ here 2 instances were enough i.e. by using command:*
 *Redis added to example backend i.e. hub.docker.com/_/redis/ (continuing 2.3)*
 
 - Frontend: Dockerfile for front placed in subdirectory: front
-- Server: Dockerfile for server placed in subdirectory: bserv*
+- Server: Dockerfile for server placed in subdirectory: bserv
 
 **Run: docker-compose up** 
 
@@ -159,21 +161,22 @@ services:
         - DB_HOST=postgres   
       container_name: bserver
 ```
+
 ## Exercise 2.7:
 
-** ML Kurkkumopo project configured with docker-compose **
+**ML Kurkkumopo project configured with docker-compose**
  
 - github.com/docker-hy/ml-kurkkumopo-training
 - github.com/docker-hy/ml-kurkkumopo-frontend
 - github.com/docker-hy/ml-kurkkumopo-backend
 
-** Services:**
+**Services:**
 
  - subdirectory: frontend
  - subdirectory: backend
  - subdirectory: training
 
-** Volumes: model: & imgs:**
+**Volumes: model: & imgs:**
 
   - volumes: > docker volume ls (to see volumes) 
   - and docker volume prune (i.e. to remove unnecessary/interfering volumes)
@@ -219,12 +222,12 @@ volumes:
 
 ## Exercise 2.8
  
-* Continuing frontend-backend example now adding nginx to it *
+*Continuing frontend-backend example now adding nginx to it*
 
 - Frontend: Dockerfile for front placed in subdirectory: front
 - Server: Dockerfile for server placed in subdirectory: bserv
 
-** Docker run details:**
+**Docker run details:**
 
 - place the nginx.conf file to the ./lb_nginx sub-directory (with fixed urls)
  
@@ -314,7 +317,7 @@ http {
 
 ## Exercise 2.9: 
 
-* Continuing frontend-backend example. Make database shared with host such way that it won't get deleted when container volume is removed* 
+*Continuing frontend-backend example. Make database shared with host such way that it won't get deleted when container volume is removed* 
 
 - Frontend: Dockerfile for front placed in subdirectory: front
 - Server: Dockerfile for server placed in subdirectory: bserv
@@ -374,7 +377,7 @@ services:
 
 *Make sure that every button implemented in previous frontend-backend exercises works.* 
 
-** Changes needed ** 
+**Changes needed** 
 
 ```
 1) docker-compose.yml: 
@@ -393,7 +396,8 @@ services:
 
 ``` 
 
-* Frontend Docker file:*
+*Frontend Docker file:*
+
 >  ENV ARG_URL changed to be: http://localhost:80
 
 
@@ -415,7 +419,8 @@ EXPOSE 5000
 
 ```  
 
-* Backend Docker file:*
+*Backend Docker file:*
+
 >  ENV FRONT_URL changed to be: http://localhost:80
 
 ```
@@ -511,7 +516,7 @@ networks:
 
 ```
 
-* nginx.conf not changed comparing to exercise 2.8 *
+*nginx.conf not changed comparing to exercise 2.8*
 
 
 ```
