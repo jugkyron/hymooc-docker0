@@ -5,7 +5,7 @@
 *Optimize previous frontend & backend exercise (from part 2.)*
 
 ```
-Resulte and Dockerfiles:
+Results and Dockerfiles:
 Not optimized image for Frontend:  531MB
 Optimized image for Frontend: 428MB
 Not optimized image for Backend: 435MB
@@ -93,7 +93,7 @@ EXPOSE 8000
 #### FRONTEND SERVER Dockerfile
 
 ```
-# BACKEND SERVER
+# FRONTEND SERVER
 # This Dockerfile needs tobe located in ./front -directory
 FROM ubuntu:16.04
 WORKDIR /usr/app
