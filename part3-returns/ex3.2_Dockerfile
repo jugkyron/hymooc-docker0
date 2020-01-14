@@ -1,0 +1,34 @@
+# *****************************************
+# * Dockerfile                            * 
+# * yle-dl docker optimization exercise   *
+# * ref.https://aajanki.github.io/yle-dl/ *
+# *****************************************
+# ajo: docker run -it -v "$(pwd)":/usr/app yle https://areena.yle.fi/xxxx (xxxx=podcast-filename)
+# tested with without breaking the YLE Terms of Service wih podcast download
+
+
+FROM ubuntu:16.04 
+
+ENV LC_ALL=C.UTF-8 
+
+WORKDIR /usr 
+
+RUN apt-get update && apt-get install -y \
+    python ca-certificates wget software-properties-common && \
+    add-apt-repository ppa:jonathonf/ffmpeg-4 -y && \
+    apt-get update && apt-get install -y ffmpeg && \
+    apt install python3-pip -y && \
+    pip3 install --upgrade pip && \
+    useradd -m app && \
+    add-apt-repository --remove ppa:jonathonf/ffmpeg-4 -y && \
+    rm -rf /var/lib/apt/lists/*
+
+USER app
+
+WORKDIR /usr/app
+
+RUN pip3 install --user --upgrade yle-dl 
+
+# path to executable: /home/app/.local/bin
+# dowloads to default directory use: "$(pwd)":/usr/app 
+ENTRYPOINT ["/home/app/.local/bin/yle-dl"]

@@ -1,0 +1,22 @@
+# This Dockerfile needs tobe located in ./bserv -directory
+FROM ubuntu:16.04
+WORKDIR /usr/app
+RUN apt-get update && apt-get install -y \ 
+    curl python git ca-certificates && \
+    git clone https://github.com/docker-hy/backend-example-docker.git && \
+    curl -sL https://deb.nodesource.com/setup_10.x | bash && \
+    apt-get install -y nodejs && \
+    apt-get purge -y --auto-remove curl git && \
+    rm -rf /var/lib/apt/lists/* && \
+    useradd -m app && \
+    chown -R app:app /usr/app/backend-example-docker
+
+USER app
+
+WORKDIR /usr/app/backend-example-docker
+
+RUN npm install -y 
+ENV FRONT_URL=http://localhost:80
+
+CMD ["npm", "start"]
+EXPOSE 8000
