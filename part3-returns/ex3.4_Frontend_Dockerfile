@@ -1,0 +1,22 @@
+# This Dockerfile needs tobe located in ./front -directory
+FROM node:alpine
+WORKDIR /home/node/app
+
+RUN apk add --no-cache curl python git ca-certificates && \
+    git clone https://github.com/docker-hy/frontend-example-docker.git && \
+    apk del curl git && \  
+    chown -R node:node /home/node/app/frontend-example-docker
+
+USER node
+
+WORKDIR /home/node/app/frontend-example-docker
+
+RUN npm install -y
+
+ARG API_URL
+
+ENV API_URL=${API_URL:-http://localhost:80}
+
+CMD ["npm", "start"]
+
+EXPOSE 5000

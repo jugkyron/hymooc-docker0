@@ -1,0 +1,45 @@
+# This Dockerfile for Multi-stage builds exercise 3.5
+# Building happens in two stages: "Builder"-stage and "Build"-stage
+# Image based on: node:alpine
+# Service build is "Serve" fileserver front
+# BUILD + RUN: 
+# > docker build -t mstage .
+# > docker run -d -p 5000:5000 -v $(pwd)/dist:/home/node/dist mstage 
+# "image for run" size: 125 MB
+#
+
+FROM node:alpine as Builder
+WORKDIR /home/node/app
+
+RUN apk add --no-cache curl python git ca-certificates && \
+    git clone https://github.com/docker-hy/frontend-example-docker.git && \
+    apk del curl git && \  
+    chown -R node:node /home/node/app/frontend-example-docker && \
+    chown -R node:node /usr/local/lib/node_modules
+
+WORKDIR /home/node/app/frontend-example-docker
+
+RUN npm install -g serve
+
+FROM node:alpine as Build
+
+COPY --from=Builder /home/node/app/frontend-example-docker  .
+
+# start serve - service
+RUN apk add --no-cache libc6-compat && \
+    yarn global add serve
+
+# let's use non root user
+USER node
+
+# create directory and content and share it with container: 
+# (-v $(pwd)/dist:/home/node/dist)  
+# let's make also container directory for files:
+WORKDIR /home/node/dist
+
+# listen port 5000
+EXPOSE 5000
+
+#Starting server
+ENTRYPOINT ["sh", "-c", "serve", "-s", "-l", "5000", "dist"]
+

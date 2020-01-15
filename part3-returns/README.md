@@ -122,3 +122,156 @@ CMD ["npm", "start"]
 EXPOSE 5000
 
 ```
+
+## Exercise 3.4 
+
+### Image sizes in beginning
+
+*(the smallest configuration) node:alpine based images*
+
+```
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+bserv               latest              01cbf2f9be40        4 minutes ago       211MB
+front               latest              1c0021a79b0f        5 minutes ago       307MB
+```
+
+*(second smallest) ubuntu:16.04 based images*
+
+```
+REPOSITORY           TAG                IMAGE ID            CREATED             SIZE
+bserv (ubuntu:16.04) latest             976bc9c08443        11 minutes ago      332MB
+front (ubuntu:16.04) latest             6b8afbd40317        13 minutes ago      429MB
+```
+
+*(the biggest) node:10 based images*
+
+```
+REPOSITORY          TAG                 IMAGE ID            CREATED              SIZE
+bserv               latest              f78cfae705d9        About a minute ago   969MB
+front               latest              c8df439a409d        4 minutes ago        1.07GB
+
+```
+
+### Optimized Dockerfile for frontend (exercise 3.4)
+
+```
+# This Dockerfile needs tobe located in ./front -directory
+FROM node:alpine
+WORKDIR /home/node/app
+
+RUN apk add --no-cache curl python git ca-certificates && \
+    git clone https://github.com/docker-hy/frontend-example-docker.git && \
+    apk del curl git && \  
+    chown -R node:node /home/node/app/frontend-example-docker
+
+USER node
+
+WORKDIR /home/node/app/frontend-example-docker
+
+RUN npm install -y
+
+ARG API_URL
+
+ENV API_URL=${API_URL:-http://localhost:80}
+
+CMD ["npm", "start"]
+
+EXPOSE 5000
+
+```
+
+### Optimized Dockerfile for backend (exercise 3.4)
+
+```
+# This Dockerfile needs tobe located in ./bserv -directory
+FROM node:alpine
+WORKDIR /home/node/app
+
+RUN apk add --no-cache curl python git ca-certificates && \
+    git clone https://github.com/docker-hy/backend-example-docker.git && \
+    apk del curl git && \
+    chown -R node:node /home/node/app/backend-example-docker   
+
+USER node
+
+WORKDIR /home/node/app/backend-example-docker
+
+RUN npm install -y 
+
+ENV FRONT_URL=http://localhost:80
+
+CMD ["npm", "start"]
+
+EXPOSE 8000
+
+```
+
+## Exercise 3.5 
+
+### Dockerfile for Multi-stage exercise
+
+```
+# This Dockerfile for Multi-stage builds exercise 3.5
+# Building happens in two stages: "Builder"-stage and "Build"-stage
+# Image based on: node:alpine
+# Service build is "Serve" fileserver front
+# BUILD + RUN: 
+# > docker build -t mstage .
+# > docker run -d -p 5000:5000 -v $(pwd)/dist:/home/node/dist mstage 
+# "image for run" size: 125 MB
+#
+
+FROM node:alpine as Builder
+WORKDIR /home/node/app
+
+RUN apk add --no-cache curl python git ca-certificates && \
+    git clone https://github.com/docker-hy/frontend-example-docker.git && \
+    apk del curl git && \  
+    chown -R node:node /home/node/app/frontend-example-docker && \
+    chown -R node:node /usr/local/lib/node_modules
+
+WORKDIR /home/node/app/frontend-example-docker
+
+RUN npm install -g serve
+
+FROM node:alpine as Build
+
+COPY --from=Builder /home/node/app/frontend-example-docker  .
+
+# start serve - service
+RUN apk add --no-cache libc6-compat && \
+    yarn global add serve
+
+# let's use non root user
+USER node
+
+# create directory and content and share it with container: 
+# (-v $(pwd)/dist:/home/node/dist)  
+# let's make also container directory for files:
+WORKDIR /home/node/dist
+
+# listen port 5000
+EXPOSE 5000
+
+#Starting server
+ENTRYPOINT ["sh", "-c", "serve", "-s", "-l", "5000", "dist"]
+
+```
+
+
+
+## Exercise 3.6
+
+### Exercise, ..optimizations from security to size
+
+```
+
+```
+
+## Exercise 3.x
+
+### AO
+
+```
+
+```
