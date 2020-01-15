@@ -122,12 +122,19 @@ CMD ["npm", "start"]
 EXPOSE 5000
 
 ```
-
 ## Exercise 3.4 
 
-### Image sizes in beginning
 
-*(the smallest configuration) node:alpine based images*
+### Image sizes in beginning 
+*(without optimizations)*
+
+```
+bserv 435 MB  = Backend / ubuntu:16.04
+front 531 MB  = Frontend / ubuntu:16.04 
+```
+
+### node:alpine based images
+*(the smallest configuration)*
 
 ```
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
@@ -135,7 +142,8 @@ bserv               latest              01cbf2f9be40        4 minutes ago       
 front               latest              1c0021a79b0f        5 minutes ago       307MB
 ```
 
-*(second smallest) ubuntu:16.04 based images*
+### ubuntu:16.04 based images
+*(second smallest)*
 
 ```
 REPOSITORY           TAG                IMAGE ID            CREATED             SIZE
@@ -143,7 +151,8 @@ bserv (ubuntu:16.04) latest             976bc9c08443        11 minutes ago      
 front (ubuntu:16.04) latest             6b8afbd40317        13 minutes ago      429MB
 ```
 
-*(the biggest) node:10 based images*
+### node:10 based images
+*(i.e. bigger than original i.e. even with optimizations)*
 
 ```
 REPOSITORY          TAG                 IMAGE ID            CREATED              SIZE
