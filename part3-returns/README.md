@@ -267,17 +267,99 @@ ENTRYPOINT ["sh", "-c", "serve", "-s", "-l", "5000", "dist"]
 
 ```
 
-
-
 ## Exercise 3.6
 
-### Exercise, ..optimizations from security to size
+### Non-optimized (i.e. baseline) Dockerfile for exercise 3.6
+*Image size was: 316 MB*
 
 ```
+# Dockerfile for exercise 3.6 (Not optimised versio)
+# (Service is same as my Excercise 1.15 return was) 
+# Dockerfile for exercise 3.6 -Not Optimized
+# BUILD: docker build -t nodexa .
+# RUN: docker run -d -p 3000:3000 nodexa   
+# "Original" size: 316 MB 
+ 
+FROM ubuntu:18.04
 
+WORKDIR /usr
+
+RUN apt-get update && apt-get install -y git
+
+RUN apt-get install -y curl  
+
+RUN git clone https://github.com/jugkyron/nodeserver-example.git
+
+WORKDIR /usr/nodeserver-example
+
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+
+RUN apt-get install -y nodejs
+
+RUN echo "node version:" >> version-of-service
+
+RUN nodejs -v >> version-of-service
+
+RUN echo "npm version:" >> version-of-service
+
+RUN npm -v >> version-of-service
+
+RUN npm install -y
+
+EXPOSE 3000
+
+ENTRYPOINT ["npm", "start"]
 ```
 
-## Exercise 3.x
+### Optimized Dockerfile for exercise 3.6 (Multi-stage build image)
+*Image size 113 MB*
+ 
+```
+# Dockerfile for exercise 3.6 (Multi-Stage + optimized)
+# (Service is same as my Excercise 1.15 return now optimized)
+# BUILD: docker build -t multis .
+# RUN: docker run -d -p 3000:3000 multis   
+# "Original" (old) size was: 316 MB
+# New image size is: 113 MB
+
+# Image changed from ubuntu:18.04 to node:alpine
+# Stages: 1) Builder and 2) Build 
+
+FROM node:alpine as Builder
+WORKDIR /home/node/app
+
+RUN apk add --no-cache python git ca-certificates && \
+    git clone https://github.com/jugkyron/nodeserver-example.git && \
+    apk del git && \  
+    chown -R node:node /home/node/app/nodeserver-example
+
+WORKDIR /home/node/app/nodeserver-example
+
+RUN npm install -y
+
+# Stage 2: 
+FROM node:alpine as Build
+
+WORKDIR /home/node/app
+RUN chown -R node:node /home/node/app
+
+# Copy from Builder stage:
+COPY --from=Builder /home/node/app/nodeserver-example  /home/node/app/.
+
+# let's use non-root user:
+USER node
+
+RUN echo "node version:" >> version-of-service && \
+    nodejs -v >> version-of-service && \
+    echo "npm version:" >> version-of-service && \
+    npm -v >> version-of-service
+
+EXPOSE 3000
+
+ENTRYPOINT ["npm", "start"]
+```
+
+## Exercise x
 
 ### AO
 

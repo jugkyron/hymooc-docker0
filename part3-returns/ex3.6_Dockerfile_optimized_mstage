@@ -1,0 +1,42 @@
+# Dockerfile for exercise 3.6 (Multi-Stage + optimized)
+# (Service is same as my Excercise 1.15 return but now optimized)
+# BUILD: docker build -t multis .
+# RUN: docker run -d -p 3000:3000 multis   
+# "Original" (old) size was: 316 MB
+# New image size is: 113 MB
+
+# Image changed from ubuntu:18.04 to node:alpine
+# Stages: 1) Builder and 2) Build 
+
+FROM node:alpine as Builder
+WORKDIR /home/node/app
+
+RUN apk add --no-cache python git ca-certificates && \
+    git clone https://github.com/jugkyron/nodeserver-example.git && \
+    apk del git && \  
+    chown -R node:node /home/node/app/nodeserver-example
+
+WORKDIR /home/node/app/nodeserver-example
+
+RUN npm install -y
+
+# Stage 2: 
+FROM node:alpine as Build
+
+WORKDIR /home/node/app
+RUN chown -R node:node /home/node/app
+
+# Copy from Builder stage:
+COPY --from=Builder /home/node/app/nodeserver-example  /home/node/app/.
+
+# let's use non-root user:
+USER node
+
+RUN echo "node version:" >> version-of-service && \
+    nodejs -v >> version-of-service && \
+    echo "npm version:" >> version-of-service && \
+    npm -v >> version-of-service
+
+EXPOSE 3000
+
+ENTRYPOINT ["npm", "start"]
