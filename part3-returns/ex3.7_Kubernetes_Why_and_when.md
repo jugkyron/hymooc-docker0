@@ -7,7 +7,7 @@ Kubernetes provide a framework for orchestrating containers in distributed syste
 
 Docker provides an standard for packaging and distributing containerized applications and services but there is multiple additional challenges on managing containers as large deployment which Kubernetes provides a solution. Kubernetes deployment creates a cluster which presented in following picture 1.
 
-![Picture 1.] (https://github.com/jugkyron/hymooc-docker0/part3-returns/images/Kubernetes-cluster.png)
+![Picture 1.] (images/Kubernetes-cluster.png)
 (CNCF Documentation, 2020, kubernetes.io)
 
 ### Kubernetes Benefits: 
