@@ -359,10 +359,11 @@ EXPOSE 3000
 ENTRYPOINT ["npm", "start"]
 ```
 
-## Exercise x
+## Exercise 3.7 a)
 
-### AO
+### (200-300 words) text/article on why and when to use Kubernetes
 
 ```
+ See: ex3.7_Kubernetes_Why_and_when.md
 
 ```
