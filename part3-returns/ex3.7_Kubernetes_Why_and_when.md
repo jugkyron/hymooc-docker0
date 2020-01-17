@@ -25,5 +25,6 @@ Docker provides an standard for packaging and distributing containerized applica
 
 ```
 Refereces: 
-Cloud Native Computing Foundation (CNCF). (2020) https://kubernetes.io/docs/concepts/overview/components/
+
+Cloud Native Computing Foundation (CNCF). (2020) https://kubernetes.io/docs/concepts/overview/
 ```
