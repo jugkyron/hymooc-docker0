@@ -361,9 +361,30 @@ ENTRYPOINT ["npm", "start"]
 
 ## Exercise 3.7 a)
 
-### (200-300 words) text/article on why and when to use Kubernetes
+# Why and when to use Kubernetes
+
+### General
+Kubernetes provide a framework for orchestrating containers in distributed systems e.g. different machines or cloud environment. Go$
+
+Docker provides an standard for packaging and distributing containerized applications and services but there is additional challeng$
+
+### Kubernetes Benefits:
+* Containers allow applications to be decomposed and modular but it is common use case that an application can be distributed over $
+
+###  Why it is beneficial use Kubernetes for managing distributed containerized application
+* it enables controlled scaling of application i.e. service discovery and DNS name based load balancing
+* it offers configuration management, managing secrets and makes possible storage orchestration
+* modularity together with scalability i.e. Kubernetes Pods concept makes possible form a collection of containers that are control$
+* it has lifecycle management which includes scheduling and coordinating containers
+* it increases efficiency by providing automatic bin packing i.e. Kubernetes fits containers in nodes.
+* failure management i.e. self-healing that includes monitoring health of an application containers, detect failure and restart con$
+* seamless upgrading an application without service interruptions and updating software at scale (version control) and an automated$
+* Development benefits getting more flexibility for cloud based apps development; Kubernetes allows you to deploy cloud-native appl$
+
+*(CNCF Documentation, 2020, kubernetes.io)*
 
 ```
- See: ex3.7_Kubernetes_Why_and_when.md
-
+Refereces:
+Cloud Native Computing Foundation (CNCF). (2020) https://kubernetes.io/docs/concepts/overview/
 ```
+
