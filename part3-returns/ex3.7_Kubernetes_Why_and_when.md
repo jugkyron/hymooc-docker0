@@ -3,12 +3,12 @@
 ## Exercise 3.7 
 
 ### General
-Kubernetes provide a framework for orchestrating containers in distributed systems e.g. different machines or cloud environment. Google open-sourced Kubernetes project 2014 and there is over decade and half experience that Google has with running production workloads at scale.There is also other popular alternatives also for container orchestration: Apache Mesos, Docker Swarm, AWS EC2 Container Service (ECS) and HashiCorp’s Nomad.. I concentrate mainly Kubernetes “why” and “when” in this article. 
+Kubernetes provide a framework for orchestrating containers in distributed systems e.g. different machines or cloud environment. Google open-sourced Kubernetes project 2014 and there is over decade and half experience that Google has with running production workloads at scale.There is also other popular alternatives also for container orchestration: Apache Mesos, Docker Swarm, AWS EC2 Container Service (ECS) and HashiCorp’s Nomad. In this rticle I concentrate in Kubernetes only. 
 
 Docker provides an standard for packaging and distributing containerized applications and services but there is multiple additional challenges on managing containers as large deployment which Kubernetes provides a solution. Kubernetes deployment creates a cluster which presented in following picture 1.
 
-![Picture 1. (kubernetes.io/../components):] (https://github.com/jugkyron/hymooc-docker0/blob/master/part3-returns/images/Kubernetes-cluster.png)
-
+![Picture 1. /kubernetes.io/:] (https://github.com/jugkyron/hymooc-docker0/blob/master/part3-returns/images/Kubernetes-cluster.png)
+Format: ![Alt Text](url)
 
 ### Kubernetes Benefits: 
 * Containers allow applications to be decomposed and modular e.g. an application can be distributed over different physical machines Kubernetes are needed for manage this.
