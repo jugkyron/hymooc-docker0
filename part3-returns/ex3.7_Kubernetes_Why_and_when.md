@@ -1,6 +1,6 @@
 
 # Why and when to use Kubernetes
-## Exercise 3.7 
+## Exercise 3.7 a) 
 
 ### General
 Kubernetes provide a framework for orchestrating containers in distributed systems e.g. different machines or cloud environment. Google open-sourced Kubernetes project 2014 and there is over decade and half experience that Google has with running production workloads at scale. There exists also many popular alternatives for Kubernetes and container orchestration: Apache Mesos, Docker Swarm, AWS EC2 Container Service (ECS) and HashiCorp’s Nomad. However in this article I will concentrate in Kubernetes only. 
